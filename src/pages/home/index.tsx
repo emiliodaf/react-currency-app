@@ -29,13 +29,13 @@ useEffect(() => {
     fetch('https://sujeitoprogramador.com/api-cripto/?key=dd8caea5f1f9cdb0&pref=BRL')
     .then(response => response.json())
     .then((data: DataProps) => {
-       let coinsData = data.coins.slice(0, 15);
+       const coinsData = data.coins.slice(0, 15);
 
-    let price = intl.NumberFormat("pt-BR", {
-        style:"currency",
-        currency: "BRL",
-    })
-
+       const price = Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+       })
+    
 
 
        const formatResult = coinsData.map((item) => {
@@ -85,26 +85,27 @@ useEffect(() => {
             </tr>
         </thead>
             <tbody id='tbody'>
-             <tr className={styles.tr}>
-                <td className={styles.tdLabel} data-label="Coin">
-                    <Link className={styles.Link} to="/detail/btc">
-                    <span>Bitcoin</span> | BTC
-                    </Link>
-                </td>
-                <td className={styles.tdLabel} data-label="Market Value">
-                    R$29500
-                </td>
-                <td className={styles.tdLabel} data-label="Price">
-                    R$40.1225
-                </td>
-                <td className={styles.tdProfit} data-label="Volume">
-                   <span>+5.8</span>
-                </td>
-             </tr>
+              {coins.map(coin => (
+                 <tr key={coin.name} className={styles.tr}>
+                 <td className={styles.tdLabel} data-label="Coin">
+                     <Link className={styles.Link} to="/detail/btc">
+                     <span>{coin.name}</span> | {coin.symbol}
+                     </Link>
+                 </td>
+                 <td className={styles.tdLabel} data-label="Market Value">
+                    {coin.formatedMarket}
+                 </td>
+                 <td className={styles.tdLabel} data-label="Price">
+                    {coin.formatedPrice}
+                 </td>
+                 <td className={Number(coin?.delta_24h) >= 0 ? styles.tdProfit : styles.tdLossc} data-label="Volume">
+                    <span>{coin.delta_24h}</span>
+                 </td>
+              </tr>
+              ))}
             </tbody>
 
           </table>
-
 
         </main>
     )
