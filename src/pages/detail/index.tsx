@@ -19,11 +19,10 @@ interface CoinProp{
    error?: string;
 }
 
-
-export function Detail(){
-    const { cripto } = useParams();
-    const { detail, setDetail } = useState<CoinProp>()
-    const { loading, setLoading } = useState(true);
+    export function Detail(){
+        const { cripto } = useParams();
+        const { detail, setDetail } = useState<CoinProp>()
+        const { loading, setLoading } = useState(true);
 
     useEffect(() => {
         function getData(){
@@ -67,9 +66,10 @@ export function Detail(){
 
 
     return(
-        <div className={styles.container}>
-            <h1 className={styles.center}>{detail?.name}</h1>
-            <p className={styles.center}>{detail?.symbol}</p>
+        <div>
+            <h4>Texto aqui</h4>
         </div>
+       
+
     )
 }
