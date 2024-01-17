@@ -31,7 +31,7 @@ useEffect(() => {
     fetch('https://sujeitoprogramador.com/api-cripto/?key=dd8caea5f1f9cdb0&pref=BRL')
     .then(response => response.json())
     .then((data: DataProps) => {
-       const coinsData = data.coins.slice(0, 15);
+        const coinsData = data.coins.slice(0, 15);
 
        const price = Intl.NumberFormat("pt-BR", {
         style: "currency",
@@ -45,6 +45,7 @@ useEffect(() => {
             ...item,
             formatedPrice: price.format(Number(item.price)),
             formatedMarket: price.format(Number(item.market_cap)),
+            numberDelta: parseFloat(item.delta_24h.replace(",", "."))
         }
 
       

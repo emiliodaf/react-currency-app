@@ -22,13 +22,13 @@ interface CoinProp{
     export function Detail(){
         const { cripto } = useParams();
         const { detail, setDetail } = useState<CoinProp>()
-        const { loading, setLoading } = useState(false);
+        const { loading, setLoading } = useState(true);
 
         const navigate = useNavigate();
 
     useEffect(() => {
         function getData(){
-        fetch(`https://sujeitoprogramador.com/api-cripto/coin/?key=dd8caea5f1f9cdb0&symbol=${cripto}`)
+        fetch(`https://sujeitoprogramador.com/api-cripto/?key=dd8caea5f1f9cdb0&symbol=${cripto}`)
         .then(response => response.json())
         .then((data: CoinProp) => {
             console.log(data);
@@ -52,7 +52,7 @@ interface CoinProp{
             }
 
            setDetail(resultData);
-           setLoading(true);
+           setLoading(false);
             
 
          })
