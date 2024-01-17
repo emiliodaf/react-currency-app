@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import {useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import styles from './detail.module.css'
 
 
@@ -22,7 +22,9 @@ interface CoinProp{
     export function Detail(){
         const { cripto } = useParams();
         const { detail, setDetail } = useState<CoinProp>()
-        const { loading, setLoading } = useState(true);
+        const { loading, setLoading } = useState(false);
+
+        const navigate = useNavigate();
 
     useEffect(() => {
         function getData(){
@@ -30,6 +32,10 @@ interface CoinProp{
         .then(response => response.json())
         .then((data: CoinProp) => {
             console.log(data);
+
+            if(data.error){
+                navigate("/")
+            }
 
             const price = Intl.NumberFormat("pt-BR", {
                 style: "currency",
@@ -44,8 +50,9 @@ interface CoinProp{
                 formatedHighPrice: price.format(Number(data.high_24h)),
 
             }
-            setDetail(resultData);
-            setLoading(false);
+
+           setDetail(resultData);
+           setLoading(true);
             
 
          })
@@ -65,11 +72,31 @@ interface CoinProp{
 
 
 
-    return(
-        <div>
-            <h4>Texto aqui</h4>
-        </div>
-       
+   return(
+        <div className={styles.container}>
+            <h1 className={styles.center}>{detail?.name}</h1>
+            <p className={styles.center}>{detail?.symbol}</p>
 
+            <section className={styles.content}>
+                <p>
+                    <strong>Price</strong> {detail?.formatedPrice}
+                </p>
+                <p>
+                    <strong>Higuer Price 24h</strong> {detail?.formatedHighprice}
+                </p>
+                <p>
+                    <strong>Lower Price 24h</strong> {detail?.formatedLowprice}
+                </p>
+                <p>
+                    <strong>Delta 24h</strong>
+                    <span className={Number(detail?.delta_24) >= 0 ? styles.profit : styles.loss}>
+                    {detail?.delta_24}
+                    </span>
+                </p>
+                <p>
+                    <strong>Market Value</strong> {detail?.formatedMarket}
+                </p>
+            </section>
+        </div>
     )
 }
